@@ -10,7 +10,8 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-add_compile_options(-DUNICODE -D_UNICODE /MT /GR-)
+set(CMAKE_CXX_COMPILE_FEATURES "${CMAKE_CXX_COMPILE_FEATURES} /NODEFAULTLIB:library /MT /GR-")
+add_definitions(-DUNICODE -D_UNICODE)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
@@ -24,7 +25,7 @@ file(GLOB PROJECT_SOURCES03 include/ui/*.h)
 set(PROJECT_SOURCES ${PROJECT_SOURCES01} ${PROJECT_SOURCES02} ${PROJECT_SOURCES03})
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(CVParameter
+    qt_add_executable(CVParameter WIN32
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
@@ -40,7 +41,7 @@ else()
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(CVParameter
+        add_executable(CVParameter WIN32
             ${PROJECT_SOURCES}
         )
     endif()
